@@ -9,11 +9,10 @@ public class MenuBarButton : MonoBehaviour {
     public void onSelect()
     {
         subMenu.SetActive(!subMenu.activeSelf);
-
-    }
-
-    public void onDeselect()
-    {
-        subMenu.SetActive(false);
+        if(subMenu != UIControler.subMenu)
+        {
+            if(UIControler.subMenu) UIControler.subMenu.SetActive(false);
+            UIControler.subMenu = subMenu;
+        }
     }
 }

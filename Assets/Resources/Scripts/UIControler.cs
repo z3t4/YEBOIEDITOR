@@ -9,7 +9,8 @@ public class UIControler : MonoBehaviour
     public static MenuBarButton menuBar;
     public BrushState state;
     public GameObject toolBar;
-
+    public static GameObject actualPopUp;
+    public static GameObject subMenu;
     // Use this for initialization
     void Start()
     {
