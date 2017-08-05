@@ -2,26 +2,23 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleApp1
+class HexField
 {
-    class HexField
+    public int x, y;
+    public FieldType field;
+
+    public enum FieldType
     {
-        public int x, y;
-        public FieldType field;
+        Grass = 0,
+        Rock = 1,
+        Sand = 2,
+        Poop = 3
+    }
 
-        public enum FieldType
-        {
-            Grass = 0,
-            Rock = 1,
-            Sand = 2,
-            Poop = 3
-        }
-
-        public HexField(int x, int y, int fieldId)
-        {
-            this.x = x;
-            this.y = y;
-            this.field = (FieldType)fieldId;
-        }
+    public HexField(int x, int y, int fieldId)
+    {
+        this.x = x;
+        this.y = y;
+        this.field = (FieldType)fieldId;
     }
 }
