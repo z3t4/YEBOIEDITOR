@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UIControler : MonoBehaviour
 {
-
+    public static MenuBarButton menuBar;
     public BrushState state;
     public GameObject toolBar;
 

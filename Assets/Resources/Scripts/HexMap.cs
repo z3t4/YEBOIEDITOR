@@ -14,9 +14,9 @@ public class HexMap : MonoBehaviour {
 	void Start () {
 		//generateHexMap
 
-        for(int x = 0; x < 50000; ++x)
+        for(int x = 0; x < 50; ++x)
         {
-            for (int y = 0; y < 500000; ++y)
+            for (int y = 0; y < 50; ++y)
             {
                 Transform transform = Instantiate(hexSupport);
                 float delta = y % 2 == 1 ? xratio / 2 : 0;
