@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
-class HexField
+class HexField : MonoBehaviour
 {
     public int x, y;
     public FieldType field;

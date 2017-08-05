@@ -31,6 +31,7 @@ class Project
         }
         Directory.CreateDirectory(Project.projectPath);
         Project.mapPath = Project.projectPath + mapName;
+        HexMap.generateMap(xSize, ySize);
         MapFile.save();
         return true;
     }

@@ -15,7 +15,7 @@ public class NewProjectOkButton : MonoBehaviour {
         {
             return;
         }
-        Project.newProject(nameField.text, 10, 10, false);
+        Project.newProject(nameField.text, x1, y1, false);
         UIControler.actualPopUp.SetActive(false);
         UIControler.actualPopUp = null;
     }
