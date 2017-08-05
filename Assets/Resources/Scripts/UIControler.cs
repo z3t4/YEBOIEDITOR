@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class UIControler : MonoBehaviour
 {
+    private const float CAMERA_SPEED = 7.5f;
+
     public static MenuBarButton menuBar;
     public BrushState state;
     public GameObject toolBar;
@@ -23,7 +25,7 @@ public class UIControler : MonoBehaviour
         if (!RectTransformUtility.RectangleContainsScreenPoint(toolBar.GetComponent<RectTransform>(),
                              Input.mousePosition))
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(0))
             {
                 changeBlock();
             }
@@ -33,6 +35,8 @@ public class UIControler : MonoBehaviour
                 this.state = BrushState.NoState;
             }
         }
+
+        cameraKeyboardControler();
     }
 
     void OnMouseDown()
@@ -71,5 +75,21 @@ public class UIControler : MonoBehaviour
                 block.GetComponent<Renderer>().material = (Material)Resources.Load("Materials/Mountain");
                 break;
         }
+    }
+
+    private void cameraKeyboardControler()
+    {
+        if (Input.GetKey(KeyCode.Q))
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, Camera.main.transform.position + Vector3.left * CAMERA_SPEED, Time.deltaTime);
+        if (Input.GetKey(KeyCode.Z))
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, Camera.main.transform.position + Vector3.forward * CAMERA_SPEED, Time.deltaTime);
+        if (Input.GetKey(KeyCode.S))
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, Camera.main.transform.position + Vector3.back * CAMERA_SPEED, Time.deltaTime);
+        if (Input.GetKey(KeyCode.D))
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, Camera.main.transform.position + Vector3.right * CAMERA_SPEED, Time.deltaTime);
+        if (Input.GetKey(KeyCode.A))
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, Camera.main.transform.position + Vector3.up * CAMERA_SPEED, Time.deltaTime);
+        if (Input.GetKey(KeyCode.E))
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, Camera.main.transform.position + Vector3.down * CAMERA_SPEED, Time.deltaTime);
     }
 }
