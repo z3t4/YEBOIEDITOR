@@ -7,7 +7,7 @@ using UnityEngine;
 
 class Project
 {
-    public static string projectPath = "C:\\Users\\jérome\\Documents\\Mastaga\\";
+    public static string projectPath;
     public static string mapName = "map";
     public static char fieldSeparator = '#';
 
@@ -25,31 +25,47 @@ class Project
         }
         Project.projectPath = Project.projectPath + mapName + "\\";
         Project.mapName = mapName;
+        Project.mapPath = Project.projectPath + mapName;
         if (Directory.Exists(Project.projectPath) && !forceMode)
         {
             return false;
         }
         Directory.CreateDirectory(Project.projectPath);
-        Project.mapPath = Project.projectPath + mapName;
+        
         HexMap.generateMap(xSize, ySize);
-        MapFile.save();
+        MapFile.save(Project.mapPath);
         return true;
     }
 
-    private void checkFolderMastaga()
+    public static List<String> getListProjectNames()
     {
-        if (!Directory.Exists(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-            + "MastagaEditor\\"))
+        var list = Directory.GetDirectories(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            + "\\MastagaEditor\\").ToList<string>();
+        for (int i = 0; i <list.Count; ++i)
         {
-            Directory.CreateDirectory(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-            + "MastagaEditor\\");
+            list[i] = list[i].Split('\\').Last<string>();
         }
+        return list;
     }
-
-    public static void openProject()
+    
+    public static void loadProject(string projectName)
     {
         clearProject();
-        fields = MapFile.read();
+        Project.projectPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            + "\\MastagaEditor\\" + projectName + "\\";
+        Project.mapName = projectName;
+        Project.mapPath = Project.projectPath + projectName;
+        MapFile.MapFileOutput output = MapFile.read(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            + "\\MastagaEditor\\" + projectName + "\\" + projectName);
+        HexMap.loadMap(output.fields, output.xSize,output.ySize);
+    }
+
+    public static bool regenMap(int xSize, int ySize, bool forceMode)
+    {
+        clearProject();
+        HexMap.generateMap(xSize, ySize);
+        MapFile.save(Project.mapPath);
+        return true;
     }
 
     public static void clearProject()
@@ -59,7 +75,8 @@ class Project
 
     public static void saveProject()
     {
-        MapFile.save();
+        Debug.Log(mapName);
+        MapFile.save(Project.mapPath);
     }
 
     public static void sortFields()

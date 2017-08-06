@@ -3,11 +3,15 @@ using System.IO;
 
 class MapFile
 {
-    public static void save()
+    public static void save(string dir)
     {
-        string path = Project.mapPath + ".map";
+        string path = dir + ".map";
         using (StreamWriter sw = File.CreateText(path))
         {
+            int xSize = Project.fields[Project.fields.Count-1].x;
+            int ySize = Project.fields[Project.fields.Count - 1].y;
+            sw.WriteLine(xSize.ToString() + Project.fieldSeparator +
+                ySize.ToString());
             foreach (HexField field in Project.fields)
             {
                 sw.WriteLine(
@@ -18,15 +22,31 @@ class MapFile
         }
     }
 
-    public static List<HexField> read()
+    public class MapFileOutput
     {
-        List<HexField> fields = new List<HexField>();
-        string[] lines = File.ReadAllLines(Project.projectPath + Project.mapName + ".map");
+        public int xSize, ySize;
+        public List<HexField> fields = new List<HexField>();
+    }
+
+    public static MapFileOutput read(string dir)
+    {
+        MapFileOutput output = new MapFileOutput();
+        string[] lines = File.ReadAllLines(dir + ".map");
+        int lineCount = 0;
         foreach (var line in lines)
         {
             var splits = line.Split(Project.fieldSeparator);
-            fields.Add(new HexField(int.Parse(splits[0]), int.Parse(splits[1]), int.Parse(splits[2])));
+            if (lineCount == 0)
+            {
+                output.xSize = int.Parse(splits[0]);
+                output.ySize = int.Parse(splits[1]);
+            }
+            else
+            {
+                output.fields.Add(new HexField(int.Parse(splits[0]), int.Parse(splits[1]), int.Parse(splits[2])));
+            }
+            lineCount++;
         }
-        return fields;
+        return output;
     }
 }

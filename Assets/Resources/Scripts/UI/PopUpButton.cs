@@ -5,7 +5,7 @@ using UnityEngine;
 public class PopUpButton : MonoBehaviour {
 
     public GameObject popup;
-    public void onLaunchPopUp()
+    public virtual void onLaunchPopUp()
     {
         if(popup) popup.SetActive(true);
         if (UIControler.actualPopUp != popup && UIControler.actualPopUp)
