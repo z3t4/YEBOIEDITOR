@@ -3,12 +3,6 @@ using System.IO;
 
 class MapFile
 {
-    public class MapFileOutput
-    {
-        public int xSize, ySize;
-        public List<HexField.Data> fields = new List<HexField.Data>();
-    }
-    
     public static void save(string dir)
     {
         string path = dir + ".map";
@@ -20,15 +14,30 @@ class MapFile
                 ySize.ToString());
             foreach (HexField field in Project.fields)
             {
-                sw.WriteLine(
-                    field.data.x.ToString() + Project.fieldSeparator + 
-                    field.data.y.ToString() + Project.fieldSeparator + 
-                    field.data.field + Project.fieldSeparator + 
-                    field.data.playerControl);
+                if(Project.fields[Project.fields.Count -1] == field)
+                {
+                    sw.Write(writeString(field.data));
+                    break;
+                }
+                sw.WriteLine(writeString(field.data));
             }
         }
     }
-    
+
+    private static string writeString(HexField.Data data)
+    {
+        return data.x.ToString() + Project.fieldSeparator +
+                    data.y.ToString() + Project.fieldSeparator +
+                    (int)data.field + Project.fieldSeparator +
+                    data.playerControl.ToString();
+    }
+
+    public class MapFileOutput
+    {
+        public int xSize, ySize;
+        public List<HexField.Data> fields = new List<HexField.Data>();
+    }
+
     public static MapFileOutput read(string dir)
     {
         MapFileOutput output = new MapFileOutput();

@@ -7,12 +7,12 @@ using UnityEngine.UI;
 
 class ProjectFile
 {
-    const float version = 1f;
+    const string version = "1";
 
     public class FileOutput
     {
         public bool deltaVersion = false;
-        public int version;
+        public string version;
         public int playerCount;
     }
 
@@ -21,8 +21,8 @@ class ProjectFile
         string path = dir + ".pro";
         using (StreamWriter sw = File.CreateText(path))
         {
-            sw.WriteLine(version.ToString());
-            sw.WriteLine(playerCount.ToString());
+            sw.WriteLine(version);
+            sw.WriteLine(playerCount);
         }
     }
 
@@ -30,10 +30,10 @@ class ProjectFile
     {
         FileOutput output = new FileOutput();
         string[] lines = File.ReadAllLines(dir + ".pro");
-        output.version = int.Parse(lines[0]);
+        output.version = lines[0];
         output.playerCount = int.Parse(lines[1]);
 
-        if(output.version != ProjectFile.version) output.deltaVersion = true;
+        if(output.version != version) output.deltaVersion = true;
         
         return output;
     }
