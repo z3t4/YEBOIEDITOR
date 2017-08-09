@@ -3,31 +3,32 @@ using System.IO;
 
 class MapFile
 {
+    public class MapFileOutput
+    {
+        public int xSize, ySize;
+        public List<HexField.Data> fields = new List<HexField.Data>();
+    }
+    
     public static void save(string dir)
     {
         string path = dir + ".map";
         using (StreamWriter sw = File.CreateText(path))
         {
-            int xSize = Project.fields[Project.fields.Count-1].x;
-            int ySize = Project.fields[Project.fields.Count - 1].y;
+            int xSize = Project.fields[Project.fields.Count-1].data.x;
+            int ySize = Project.fields[Project.fields.Count - 1].data.y;
             sw.WriteLine(xSize.ToString() + Project.fieldSeparator +
                 ySize.ToString());
             foreach (HexField field in Project.fields)
             {
                 sw.WriteLine(
-                    field.x.ToString() + Project.fieldSeparator + 
-                    field.y.ToString() + Project.fieldSeparator + 
-                    (int)field.field);
+                    field.data.x.ToString() + Project.fieldSeparator + 
+                    field.data.y.ToString() + Project.fieldSeparator + 
+                    field.data.field + Project.fieldSeparator + 
+                    field.data.playerControl);
             }
         }
     }
-
-    public class MapFileOutput
-    {
-        public int xSize, ySize;
-        public List<HexField> fields = new List<HexField>();
-    }
-
+    
     public static MapFileOutput read(string dir)
     {
         MapFileOutput output = new MapFileOutput();
@@ -43,7 +44,12 @@ class MapFile
             }
             else
             {
-                output.fields.Add(new HexField(int.Parse(splits[0]), int.Parse(splits[1]), int.Parse(splits[2])));
+                output.fields.Add(new HexField.Data {
+                    x = int.Parse(splits[0]),
+                    y = int.Parse(splits[1]),
+                    field = (HexField.FieldType)int.Parse(splits[2]),
+                    playerControl = int.Parse(splits[3])
+                });
             }
             lineCount++;
         }

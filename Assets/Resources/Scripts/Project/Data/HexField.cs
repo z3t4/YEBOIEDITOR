@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class HexField : MonoBehaviour
 {
-    public int x, y;
-    public FieldType field;
-
     public enum FieldType
     {
         Grass = 0,
@@ -16,10 +13,12 @@ public class HexField : MonoBehaviour
         Dirt = 3
     }
 
-    public HexField(int x, int y , int idType)
+    public struct Data
     {
-        this.x = x;
-        this.y = y;
-        this.field = (FieldType)idType;
+        public int x, y;
+        public FieldType field;
+        public int playerControl;
     }
+
+    public Data data;
 }

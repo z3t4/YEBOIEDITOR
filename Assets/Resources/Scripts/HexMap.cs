@@ -15,35 +15,40 @@ public class HexMap : MonoBehaviour {
         {
             for (int y = 0; y < ySize; ++y)
             {
-                constructField(x, y, HexField.FieldType.Grass, xSize, ySize);
+                HexField.Data data = new HexField.Data
+                {
+                    x = x,
+                    y = y,
+                    field = HexField.FieldType.Grass,
+                    playerControl = 0
+                };
+                constructField(data, xSize, ySize);
             }
         }
     }
 
-    public static void loadMap(List<HexField> fields, int xSize, int ySize)
+    public static void loadMap(List<HexField.Data> fields, int xSize, int ySize)
     {
         clearMap();
         Debug.Assert(fields.Count > 0);
         hexMap.Clear();
-        foreach(HexField f in fields)
+        foreach(HexField.Data f in fields)
         {
-            constructField(f.x, f.y, f.field, xSize, ySize);
+            constructField(f, xSize, ySize);
         }
     }
 
-    private static void constructField(int x, int y, HexField.FieldType type, int xSize, int ySize)
+    private static void constructField(HexField.Data data, int xSize, int ySize)
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>("Materials/HexBlockGO"));
         Transform transform = obj.transform;
-        float delta = y % 2 == 1 ? xratio / 2 : 0;
-        transform.SetPositionAndRotation(new Vector3(xratio * x - delta - (xSize * xratio / 2), 0,
-            y * yratio - (ySize * yratio / 2)), new Quaternion());
-        hexMap.Add(new Vector2(x, y), transform);
+        float delta = data.y % 2 == 1 ? xratio / 2 : 0;
+        transform.SetPositionAndRotation(new Vector3(xratio * data.x - delta - (xSize * xratio / 2), 0,
+            data.y * yratio - (ySize * yratio / 2)), new Quaternion());
+        hexMap.Add(new Vector2(data.x, data.y), transform);
         HexField field = obj.AddComponent<HexField>();
-        field.x = x;
-        field.y = y;
-        field.field = type;
-        textureGameObject(obj, type);
+        field.data = data;
+        textureGameObject(obj, data.field);
         Project.fields.Add(field);
         transform.parent = GameObject.Find("Map").transform;
     }

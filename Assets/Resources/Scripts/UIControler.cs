@@ -20,7 +20,7 @@ public class UIControler : MonoBehaviour
     public GameObject toolBar;
     public static GameObject actualPopUp = null;
     public static GameObject subMenu = null;
-    
+    public static int actualPlayer = 0;
     void Update()
     {
         if (!RectTransformUtility.RectangleContainsScreenPoint(toolBar.GetComponent<RectTransform>(),
@@ -54,6 +54,11 @@ public class UIControler : MonoBehaviour
         this.state = (HexField.FieldType)idstate;
     }
 
+    public void changeCurrentPlayer(int currentPlayer)
+    {
+        
+    }
+
     private void changeBlock()
     {
         RaycastHit hit;
@@ -62,7 +67,7 @@ public class UIControler : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             GameObject block = hit.transform.gameObject;
-            block.GetComponent<HexField>().field = this.state;
+            block.GetComponent<HexField>().data.field = this.state;
             HexMap.textureGameObject(block, this.state);
         }
     }
@@ -88,4 +93,6 @@ public class UIControler : MonoBehaviour
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, 
                 Camera.main.transform.position + Vector3.down * CAMERA_SPEED, Time.deltaTime);
     }
+
+    
 }
