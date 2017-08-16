@@ -13,6 +13,7 @@ public class NewProjectPopUp : MonoBehaviour {
     public void onOk()
     {
         int x1, y1, playerCount1;
+
         if (nameField.text.Trim() == "" ||  // Name
             !int.TryParse(x.text, out x1) || // X
             !int.TryParse(y.text, out y1) || // Y
@@ -20,6 +21,7 @@ public class NewProjectPopUp : MonoBehaviour {
         {
             return;
         }
+
         if(!Project.newProject(nameField.text, x1, y1, playerCount1, false))
         {
             gameObject.SetActive(false);
